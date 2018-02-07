@@ -1,5 +1,5 @@
-/**
- * Copyright 2014 Google Inc. All Rights Reserved.
+/*!
+ * Copyright 2016 Google Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,20 @@
 
 'use strict';
 
-module.exports = {
-  projectId: process.env.GCLOUD_TESTS_PROJECT_ID,
-  keyFilename: process.env.GCLOUD_TESTS_KEY,
-  apiKey: process.env.GCLOUD_TESTS_API_KEY,
-  projectNumber: process.env.GCLOUD_TESTS_PROJECT_NUMBER,
-  nonWhitelistProjectId: process.env.GCLOUD_TESTS_PROJECT_ID_NON_WHITELIST,
-  nonWhitelistKeyFilename: process.env.GCLOUD_TESTS_KEY_NON_WHITELIST
-};
+require('shelljs/global');
+
+var git = require('../helpers').git;
+
+var SUBMODULE_NAME = 'gh-pages';
+
+// submodule data might have gotten wiped out when switching branches
+if (test('-e', '.gitmodules')) {
+  git.deinit({ alias: SUBMODULE_NAME });
+  git.remove('-rf', '.gitmodules');
+}
+
+if (test('-d', SUBMODULE_NAME)) {
+  git.remove('-rf', '--cached', SUBMODULE_NAME);
+}
+
+// rm('-rf', '.git/modules/gh-pages');

@@ -14,5 +14,18 @@
     "try",
     "typeof"
   ],
-  "requireCamelCaseOrUpperCaseIdentifiers": "ignoreProperties"
+  "requireCamelCaseOrUpperCaseIdentifiers": "ignoreProperties",
+  "maximumLineLength": {
+    "value": 80,
+    "allowUrlComments": true
+  },
+  "excludeFiles": [
+    "**/src/*/**/*",
+    "**/system-test/*/**/*",
+    "**/test/**/gapic-*.js",
+    "**/test/*/**/*",
+    "**/node_modules/",
+    "**/.coverage/**/*.js",
+    "**/smoke-test/**/*.js",
+  ]
 }

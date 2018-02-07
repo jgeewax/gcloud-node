@@ -1,5 +1,5 @@
-/**
- * Copyright 2014 Google Inc. All Rights Reserved.
+/*!
+ * Copyright 2016 Google Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,18 @@
 
 'use strict';
 
-module.exports = {
-  projectId: process.env.GCLOUD_TESTS_PROJECT_ID,
-  keyFilename: process.env.GCLOUD_TESTS_KEY,
-  apiKey: process.env.GCLOUD_TESTS_API_KEY,
-  projectNumber: process.env.GCLOUD_TESTS_PROJECT_NUMBER,
-  nonWhitelistProjectId: process.env.GCLOUD_TESTS_PROJECT_ID_NON_WHITELIST,
-  nonWhitelistKeyFilename: process.env.GCLOUD_TESTS_KEY_NON_WHITELIST
+var builder = require('./builder');
+var helpers = require('../helpers');
+
+var args = process.argv.splice(1);
+var target = helpers.ci.getRelease() || {
+  name: args[1],
+  version: args[2]
 };
+
+if (target.name) {
+  builder.build(target.name, target.version);
+  return;
+}
+
+builder.buildAll();
